@@ -5,6 +5,7 @@ This is an application I'm developing, the idea is to create a small system arou
 
 - Model management
 - HuggingFace Integration
+- Llama.cpp GitHub Integration with releases management
 - Llama-server terminal launching with easy arguments customization, Internal / External
 - Simple chat interface for easy testing
 - Hardware monitor
