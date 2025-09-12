@@ -13,7 +13,7 @@ This is an application I'm developing, the idea is to create a small system arou
 
 # To-do (long way ahead)
 - [ ] Cleanup code and organize it better
-- [ ] Add option to group files by model / qunatization / architeture
+- [ ] Add option to group files by model / quantization / architecture
 - [ ] Improve chat organization with model tagging and ability to rename the chat
 - [ ] Tools (MCP) compatibility
 - [ ] RAG implementation
