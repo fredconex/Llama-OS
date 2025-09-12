@@ -3,13 +3,24 @@
 
 This is an application I'm developing, the idea is to create a small system around llama.cpp tools but without need to hook with the dll files.
 
-- Model management
-- HuggingFace Integration
-- Llama.cpp GitHub Integration with releases management
-- Llama-server terminal launching with easy arguments customization, Internal / External
-- Simple chat interface for easy testing
-- Hardware monitor
-- Color themes
+- [x] Model management
+- [x] HuggingFace Integration
+- [x] Llama.cpp GitHub Integration with releases management
+- [x] Llama-server terminal launching with easy arguments customization, Internal / External
+- [x] Simple chat interface for easy testing
+- [x] Hardware monitor
+- [x] Color themes
+
+# To-do (long way ahead)
+- [ ] Cleanup code and organize it better
+- [ ] Add option to group files by model / qunatization / architeture
+- [ ] Improve chat organization with model tagging and ability to rename the chat
+- [ ] Tools (MCP) compatibility
+- [ ] RAG implementation
+- [ ] Make compatible with Linux and Mac
+
+# Building
+Use ```cargo tauri build```, it will output to ```backend\target\release```.
 
 # Download
 https://github.com/fredconex/Llama-OS/releases
