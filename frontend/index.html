@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Llama-OS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="modules/theme-definitions.js"></script>
+    <script>
+        // Immediate theme loading to prevent color flash
+        (function() {
+            // Get theme from server-provided variable or default to navy
+            const theme = '{{ global_config.theme_color or "navy" }}';
+            
+            // Apply the selected theme immediately using centralized definitions
+            const selectedTheme = themeDefinitions[theme] || themeDefinitions.navy;
+            const root = document.documentElement;
+            
+            root.style.setProperty('--theme-primary', selectedTheme.primary);
+            root.style.setProperty('--theme-light', selectedTheme.light);
+            root.style.setProperty('--theme-dark', selectedTheme.dark);
+            root.style.setProperty('--theme-accent', selectedTheme.accent);
+            root.style.setProperty('--theme-bg', selectedTheme.bg);
+            root.style.setProperty('--theme-surface', selectedTheme.surface);
+            root.style.setProperty('--theme-error', selectedTheme.error);
+            root.style.setProperty('--theme-error-bg', selectedTheme.errorBg);
+            root.style.setProperty('--theme-warning', selectedTheme.warning);
+            root.style.setProperty('--theme-warning-bg', selectedTheme.warningBg);
+            root.style.setProperty('--theme-success', selectedTheme.success);
+            root.style.setProperty('--theme-success-bg', selectedTheme.successBg);
+            root.style.setProperty('--theme-surface-light', selectedTheme.surfaceLight);
+            root.style.setProperty('--theme-text', selectedTheme.text);
+            root.style.setProperty('--theme-text-muted', selectedTheme.textMuted);
+            root.style.setProperty('--theme-border', selectedTheme.border);
+            root.style.setProperty('--theme-hover', selectedTheme.hover);
+            root.style.setProperty('--theme-gradient-start', selectedTheme.gradientStart);
+            root.style.setProperty('--theme-gradient-middle', selectedTheme.gradientMiddle);
+            root.style.setProperty('--theme-gradient-end', selectedTheme.gradientEnd);
+            root.style.setProperty('--theme-glow', selectedTheme.glow);
+            root.style.setProperty('--theme-glow-light', selectedTheme.glowLight);
+            root.style.setProperty('--theme-glow-strong', selectedTheme.glowStrong);
+            root.style.setProperty('--theme-bg-light', selectedTheme.bgLight);
+            root.style.setProperty('--theme-bg-medium', selectedTheme.bgMedium);
+            root.style.setProperty('--theme-bg-strong', selectedTheme.bgStrong);
+        })();
+    </script>
+    <script src="desktop.js" defer></script>
+    <script src="modules/modal-dialog.js" defer></script>
+    <script src="modules/chat-app.js" defer></script>
+    <script src="modules/huggingface-app.js" defer></script>
+    <script src="modules/terminal-manager.js" defer></script>
+    <script src="modules/properties-manager.js" defer></script>
+    <script src="modules/download-manager.js" defer></script>
+    <script src="modules/llamacpp-manager.js" defer></script>
+    <script src="modules/module-manager.js" defer></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loading-screen" id="loading-screen">
+        <div class="loading-content">
+            <h1 class="loading-title">Llama-OS</h1>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+    <div class="desktop" id="desktop">
+        <!-- Desktop Icons Area -->
+        <div class="desktop-icons" id="desktop-icons">
+            <!-- Models will be populated dynamically by Tauri -->
+        </div>
+
+        <!-- Model Info Hint -->
+        <div class="model-hint hidden" id="model-hint"></div>
+
+        <!-- Taskbar -->
+        <div class="taskbar">
+            <div class="taskbar-left">
+                <button class="app-launcher" id="app-launcher" title="Llama-OS">
+                    <span class="material-icons">bolt</span>
+                </button>
+                <button class="chat-icon" id="chat-icon" title="Chat Application" onclick="chatApp && chatApp.toggle()">
+                    <span class="material-icons">chat</span>
+                </button>
+                <button class="search-button" id="search-button" title="Search Desktop">
+                    <span class="material-icons">search</span>
+                </button>
+            </div>
+            <div class="taskbar-center" id="taskbar-center">
+                <!-- Running applications will appear here -->
+            </div>
+            <div class="taskbar-right">
+                <button class="download-history-icon" id="download-history-icon" title="Download History" onclick="downloadManager && downloadManager.toggleDownloadHistory()">
+                    <span class="material-icons">download</span>
+                </button>
+                <span id="current-time"></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="start-menu hidden" id="start-menu">
+        <div class="start-menu-header">
+            <h3>Llama-OS</h3>
+        </div>
+        <div class="start-menu-items">
+            <div class="start-menu-item" data-action="settings">
+                <span class="material-icons">settings</span>
+                <span class="start-menu-text">Settings</span>
+            </div>
+            <div class="start-menu-item" data-action="huggingface">
+                <span class="material-icons">cloud_download</span>
+                <span class="start-menu-text">Hugging Face Models</span>
+            </div>
+            <div class="start-menu-item" data-action="llamacpp-manager">
+                <span class="material-icons">build</span>
+                <span class="start-menu-text">Llama.cpp Releases</span>
+            </div>
+            <div class="start-menu-item" data-action="restart">
+                <span class="material-icons">restart_alt</span>
+                <span class="start-menu-text">Restart Server</span>
+            </div>
+            <div class="start-menu-separator"></div>
+            <div class="start-menu-item" data-action="about">
+                <span class="material-icons">info</span>
+                <span class="start-menu-text">About</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Context Menu -->
+    <div class="context-menu hidden" id="context-menu">
+        <!-- This will be dynamically populated by desktop.js -->
+    </div>
+
+    <!-- Search Balloon -->
+    <div class="search-balloon hidden" id="search-balloon">
+        <div class="search-balloon-content">
+            <input type="text" class="search-input" id="search-input" placeholder="Search desktop icons...">
+            <button class="search-clear" id="search-clear" title="Clear search">
+                <span class="material-icons">close</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Settings Window -->
+    <div class="window settings-window hidden" id="settings-window">
+        <div class="window-header">
+            <span class="window-title"><span class="material-icons">settings</span> Global Settings</span>
+            <div class="window-controls">
+                <button class="window-control minimize" onclick="desktop.minimizeWindow('settings-window')"></button>
+                <button class="window-control maximize" onclick="desktop.maximizeWindow('settings-window')"></button>
+                <button class="window-control close" onclick="desktop.closeSettingsPanel()"></button>
+            </div>
+        </div>
+        <div class="window-content">
+            <div class="property-group">
+                <h4><span class="material-icons">folder</span> Model Directory</h4>
+                <div class="property-row">
+                    <input type="text" class="property-input" id="models-directory" placeholder="Path to models folder (e.g., C:\AI\models)">
+                    <button class="browse-btn" onclick="desktop.browseFolder('models-directory')" title="Browse for folder"><span class="material-icons">folder_open</span></button>
+                </div>
+                <small style="color: var(--ubuntu-text-muted); font-size: 11px;">Directory where your .gguf model files are stored</small>
+            </div>
+            <div class="property-group">
+                <h4><span class="material-icons">rocket_launch</span> Llama Server Path</h4>
+                <div class="property-row">
+                    <input type="text" class="property-input" id="executable-folder" placeholder="Path to llama-server folder (e.g., C:\AI\llama.cpp\bin)">
+                    <button class="browse-btn" onclick="desktop.browseFolder('executable-folder')" title="Browse for folder"><span class="material-icons">folder_open</span></button>
+                </div>
+                <small style="color: var(--ubuntu-text-muted); font-size: 11px;">Folder containing the llama-server executable</small>
+            </div>
+            <div class="property-group">
+                <h4><span class="material-icons">palette</span> Theme</h4>
+                <div class="property-row" id="theme-selectors">
+                    <select class="property-input" id="theme-color"></select>
+                    <button id="theme-sync-button" class="sync-button" title="Toggle theme sync">
+                        <span class="material-icons">sync_alt</span>
+                    </button>
+                    <select class="property-input" id="background-color"></select>
+                </div>
+                <small style="color: var(--ubuntu-text-muted); font-size: 11px;">Change the interface colors. Left is for UI, right for background.</small>
+            </div>
+            <div class="property-row" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--ubuntu-border);">
+                <button class="settings-window-save" id="save-config"><span class="material-icons">save</span> Save Settings & Scan Models</button>
+            </div>
+        </div>
+    </div>
+
+    </body>
+</html>

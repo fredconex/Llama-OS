@@ -1,0 +1,545 @@
+/* Llama.cpp Release Manager Styles */
+
+.llamacpp-manager-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.llamacpp-manager-header {
+	padding: 16px;
+	border-bottom: 1px solid var(--theme-border);
+	background: var(--theme-surface-elevated);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.llamacpp-manager-info p {
+	margin: 0;
+	font-size: 14px;
+	color: var(--theme-text-muted);
+}
+
+.llamacpp-manager-controls {
+	display: flex;
+	align-items: center;
+}
+
+.llamacpp-refresh {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 16px;
+	background: var(--theme-primary);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background 0.2s ease;
+}
+
+.llamacpp-refresh:hover {
+	background: var(--theme-primary-hover);
+}
+
+.llamacpp-manager-content {
+	flex: 1;
+	overflow-y: auto;
+	padding: 20px;
+}
+
+/* Top-level tabs (Releases / Installed Versions) */
+.llamacpp-top-tabs {
+	display: flex;
+	gap: 8px;
+	padding: 8px 12px;
+	border-bottom: 1px solid var(--theme-border);
+	background: var(--theme-surface);
+}
+
+.llamacpp-top-tabs .top-tab {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	padding: 8px 12px;
+	background: var(--theme-surface);
+	color: var(--theme-text-muted);
+	border: 1px solid var(--theme-border);
+	border-radius: 6px;
+	cursor: pointer;
+	font-size: 13px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+}
+
+.llamacpp-top-tabs .top-tab:hover {
+	background: var(--theme-surface-elevated);
+	color: var(--theme-text);
+	border-color: var(--theme-primary);
+}
+
+.llamacpp-top-tabs .top-tab.active {
+	background: var(--theme-primary);
+	color: #fff;
+	border-color: var(--theme-primary);
+}
+
+.llamacpp-installed-content {
+	flex: 1;
+	overflow-y: auto;
+	padding: 20px;
+	background: transparent;
+}
+
+.llamacpp-installed-content.hidden {
+	display: none;
+}
+
+.loading-installed,
+.error-installed,
+.no-installed {
+	text-align: center;
+	padding: 40px;
+	color: var(--theme-text-muted);
+	font-size: 16px;
+}
+
+.error-installed { color: #ff4444; }
+
+.installed-list { display: flex; flex-direction: column; gap: 12px; }
+
+.installed-item {
+	display: grid;
+	grid-template-columns: 1fr auto auto;
+	gap: 12px;
+	align-items: center;
+	padding: 12px;
+	background: var(--theme-surface);
+	border: 1px solid var(--theme-border);
+	border-radius: 8px;
+}
+
+.installed-info { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.installed-name { font-size: 14px; font-weight: 600; color: var(--theme-text); }
+.installed-path { font-size: 12px; color: var(--theme-text-muted); word-break: break-all; }
+
+.installed-status { justify-self: end; }
+.badge { padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+.badge.active { background: var(--theme-success, #2e7d32); color: #fff; }
+.badge.ok { background: var(--theme-primary); color: #fff; }
+.badge.warn { background: #8d6e63; color: #fff; }
+
+.installed-actions { display: flex; gap: 8px; }
+.installed-actions button {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 10px;
+	border-radius: 6px;
+	border: 1px solid var(--theme-border);
+	background: var(--theme-surface-elevated);
+	color: var(--theme-text);
+	cursor: pointer;
+	font-size: 12px;
+	transition: all 0.2s ease;
+}
+
+.installed-actions button:hover {
+	border-color: var(--theme-primary);
+	color: var(--theme-primary);
+}
+
+.installed-actions .installed-activate {
+	background: var(--theme-surface-elevated);
+	border-color: var(--theme-border);
+	color: var(--theme-text-muted);
+	filter: brightness(0.9);
+}
+
+.installed-actions .installed-activate.is-current {
+	background: var(--theme-primary);
+	border-color: var(--theme-primary);
+	color: #fff;
+	filter: none;
+}
+
+.installed-actions .installed-activate[disabled] {
+	opacity: 0.6;
+	cursor: not-allowed;
+}
+
+.installed-actions .installed-activate.is-current[disabled] {
+	opacity: 1;
+	cursor: default;
+}
+
+.installed-actions .installed-activate:hover:not([disabled]) {
+	background: var(--theme-surface);
+	border-color: var(--theme-primary);
+	color: var(--theme-primary);
+	filter: brightness(1);
+}
+
+.installed-actions .installed-activate.disabled {
+	   background: var(--theme-surface-elevated);
+	   color: var(--theme-text-muted);
+	   opacity: 0.5;
+	   cursor: not-allowed;
+	   filter: none;
+}
+
+.installed-actions .installed-activate.disabled:hover {
+	   background: var(--theme-surface-elevated);
+	   color: var(--theme-text-muted);
+	   border-color: var(--theme-border);
+}
+
+.installed-actions .installed-delete {
+	background: var(--theme-surface);
+}
+
+.installed-actions .installed-delete:hover {
+	background: var(--theme-surface-elevated);
+}
+
+.loading-releases,
+.error-releases,
+.no-releases {
+	text-align: center;
+	padding: 40px;
+	color: var(--theme-text-muted);
+	font-size: 16px;
+}
+
+.error-releases {
+	color: #ff4444;
+}
+
+.releases-header {
+	margin-bottom: 20px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid var(--theme-border);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.releases-header p {
+	margin: 0;
+	font-size: 14px;
+	color: var(--theme-text-muted);
+}
+
+/* Tiny right-aligned platform badge toggle */
+.platform-badge {
+	background: transparent;
+	color: var(--theme-text-muted);
+	border: 1px solid var(--theme-border);
+	border-radius: 999px;
+	padding: 2px 8px;
+	font-size: 11px;
+	line-height: 1.6;
+	cursor: pointer;
+	transition: all 0.2s ease;
+}
+
+.platform-badge:hover {
+	color: var(--theme-primary);
+	border-color: var(--theme-primary);
+	background: var(--theme-surface-elevated);
+}
+
+.release-item {
+	background: var(--theme-surface-elevated);
+	border: 1px solid var(--theme-border);
+	border-radius: 8px;
+	margin-bottom: 16px;
+	overflow: hidden;
+	transition: all 0.2s ease;
+}
+
+.release-item:hover {
+	border-color: var(--theme-primary);
+}
+
+.release-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px;
+	cursor: pointer;
+	transition: background-color 0.2s ease;
+}
+
+.release-header:hover {
+	background: rgba(255, 255, 255, 0.05);
+}
+
+.release-info {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	flex: 1;
+}
+
+.release-name {
+	margin: 0;
+	font-size: 16px;
+	font-weight: 600;
+	color: var(--theme-text);
+}
+
+.release-tag {
+	background: var(--theme-primary);
+	color: white;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 12px;
+	font-weight: 500;
+}
+
+.release-date {
+	font-size: 12px;
+	color: var(--theme-text-muted);
+}
+
+.release-time {
+	font-size: 12px;
+	color: var(--theme-text-muted);
+	font-style: italic;
+}
+
+.release-actions {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+}
+
+.github-view-btn {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 6px 12px;
+	background: var(--theme-primary);
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-size: 12px;
+	cursor: pointer;
+	transition: background 0.2s ease;
+	z-index: 1;
+	position: relative;
+}
+
+.github-view-btn:hover {
+	background: var(--theme-primary-hover);
+}
+
+.release-arrow {
+	color: var(--theme-text-muted);
+	display: flex;
+	align-items: center;
+	transition: all 0.2s ease;
+}
+
+.release-item.expanded .release-arrow .material-icons {
+	transform: rotate(180deg);
+}
+
+.release-details {
+	display: none;
+	border-top: none;
+}
+
+.release-item.expanded .release-details {
+	display: block;
+}
+
+.release-item.expanded {
+	background: rgba(0,0,0, 0.3);
+	box-shadow: none;
+}
+
+.release-tabs {
+	display: flex;
+	background: rgba(0,0,0, 0.2);
+	border-bottom: 1px solid var(--theme-border);
+}
+
+.release-tab {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 12px 16px;
+	background: none;
+	border: none;
+	color: var(--theme-text-muted);
+	cursor: pointer;
+	font-size: 14px;
+	font-weight: 500;
+	transition: all 0.2s ease;
+	border-bottom: 2px solid transparent;
+}
+
+.release-tab:hover {
+	background: rgba(0,0,0, 0.1);
+	color: var(--theme-text);
+}
+
+.release-tab.active {
+	color: var(--theme-primary);
+	border-bottom-color: var(--theme-primary);
+	background: rgba(0,0,0, 0.1);
+}
+
+.release-tab .material-icons {
+	font-size: 16px;
+}
+
+.release-tab-content {
+	padding: 16px;
+}
+
+.release-tab-pane {
+	display: none;
+}
+
+.release-tab-pane.active {
+	display: block;
+}
+
+.release-body {
+	background: rgba(0,0,0, 0.1);
+	padding: 12px;
+	border-radius: 6px;
+	font-size: 13px;
+	line-height: 1.5;
+	color: var(--theme-text-muted);
+	overflow-y: auto;
+	white-space: pre-wrap;
+}
+
+.release-asset {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 12px;
+	background: rgba(0,0,0, 0.1);
+	border: 1px solid var(--theme-border);
+	border-radius: 6px;
+	margin-bottom: 8px;
+	transition: all 0.2s ease;
+}
+
+.release-asset:hover {
+	border-color: var(--theme-primary);
+}
+
+.asset-info {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 8px;
+	flex: 1;
+}
+
+.asset-name {
+	font-size: 14px;
+	font-weight: 500;
+	color: var(--theme-text);
+}
+
+/* Dim non-Windows assets when Windows-only filter is active */
+.release-asset.dim-asset {
+	opacity: 0.45;
+}
+
+.asset-download {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	padding: 8px 12px;
+	background: var(--theme-primary);
+	color: white;
+	border: none;
+	border-radius: 4px;
+	font-size: 12px;
+	cursor: pointer;
+	transition: background 0.2s ease;
+	white-space: nowrap;
+	min-width: fit-content;
+}
+
+.asset-download:hover {
+	background: var(--theme-primary-hover);
+}
+
+@media (max-width: 400px) {
+	.llamacpp-manager-window {
+		width: 95%;
+		height: 90%;
+		max-height: none;
+		min-width: 300px;
+	}
+
+	.llamacpp-manager-header {
+		padding: 12px;
+		flex-direction: column;
+		align-items: stretch;
+		gap: 12px;
+	}
+
+	.llamacpp-manager-content {
+		padding: 16px;
+	}
+
+	.release-header {
+		padding: 12px;
+	}
+
+	.release-info {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 8px;
+	}
+
+	.release-tabs {
+		flex-direction: column;
+	}
+
+	.release-tab {
+		padding: 10px 16px;
+		border-bottom: 1px solid var(--theme-border);
+		border-right: none;
+	}
+
+	.release-tab.active {
+		border-bottom-color: var(--theme-border);
+		border-left: 3px solid var(--theme-primary);
+	}
+
+	.release-tab-content {
+		padding: 12px;
+	}
+
+	.release-asset {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 8px;
+	}
+
+	.asset-download {
+		align-self: flex-end;
+	}
+}
+
+.release-info .badge.installed {
+    background-color: #ffffff77;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.8em;
+    margin-left: 8px;
+}

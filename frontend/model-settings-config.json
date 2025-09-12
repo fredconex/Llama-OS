@@ -1,0 +1,206 @@
+{
+  "settings": [
+    {
+      "id": "context_length",
+      "name": "Context Length",
+      "type": "slider",
+      "argument": "-c",
+      "aliases": [
+        "--ctx-size"
+      ],
+      "isFlag": false,
+      "min": 512,
+      "max": 131072,
+      "step": 512,
+      "default": 4096,
+      "unit": "tokens",
+      "description": "Maximum number of tokens the model can process at once"
+    },
+    {
+      "id": "temperature",
+      "name": "Temperature",
+      "type": "slider",
+      "argument": "--temp",
+      "aliases": ["--temperature"],
+      "isFlag": false,
+      "min": 0.1,
+      "max": 2.0,
+      "step": 0.01,
+      "default": 0.8,
+      "unit": "",
+      "description": "Sampling temperature for text generation"
+    },
+    {
+      "id": "top_k",
+      "name": "Top-K",
+      "type": "slider",
+      "argument": "--top-k",
+      "isFlag": false,
+      "min": 1,
+      "max": 100,
+      "step": 1,
+      "default": 40,
+      "unit": "",
+      "description": "Top-K sampling parameter"
+    },
+    {
+      "id": "top_p",
+      "name": "Top-P",
+      "type": "slider",
+      "argument": "--top-p",
+      "isFlag": false,
+      "min": 0.1,
+      "max": 1.0,
+      "step": 0.05,
+      "default": 0.9,
+      "unit": "",
+      "description": "Top-P (nucleus) sampling parameter"
+    },
+    {
+      "id": "gpu_offload",
+      "name": "GPU Offload",
+      "type": "slider",
+      "argument": "-ngl",
+      "isFlag": false,
+      "min": 0,
+      "max": 99,
+      "step": 1,
+      "default": 36,
+      "unit": "layers",
+      "description": "Number of model layers to offload to GPU"
+    },
+    {
+      "id": "cpu_moe_offload",
+      "name": "CPU MoE Offload",
+      "type": "slider",
+      "argument": "-ncmoe",
+      "aliases": [
+        "--n-cpu-moe"
+      ],
+      "isFlag": false,
+      "min": 0,
+      "max": 99,
+      "step": 1,
+      "default": 36,
+      "unit": "layers",
+      "description": "Number of model MoE layers to offload to CPU"
+    },
+    {
+      "id": "cpu_threads",
+      "name": "CPU Thread Pool Size",
+      "type": "slider",
+      "argument": "--threads",
+      "aliases": [
+        "-t"
+      ],
+      "isFlag": false,
+      "min": 1,
+      "max": 32,
+      "step": 1,
+      "default": 6,
+      "unit": "",
+      "description": "Number of CPU threads to use for processing"
+    },
+    {
+      "id": "batch_size",
+      "name": "Batch Size (Logical)",
+      "type": "slider",
+      "argument": "-b",
+      "aliases": [
+        "--batch-size"
+      ],
+      "isFlag": false,
+      "min": 1,
+      "max": 8192,
+      "step": 1,
+      "default": 2048,
+      "unit": "",
+      "description": "Batch size for prompt evaluation"
+    },
+    {
+      "id": "ubatch_size",
+      "name": "Batch Size (Physical)",
+      "type": "slider",
+      "argument": "-ub",
+      "aliases": [
+        "--ubatch-size"
+      ],
+      "isFlag": false,
+      "min": 1,
+      "max": 8192,
+      "step": 1,
+      "default": 512,
+      "unit": "",
+      "description": "Batch size for prompt evaluation"
+    },
+    {
+      "id": "offload_kv_cache",
+      "name": "Offload KV Cache to GPU Memory",
+      "type": "toggle",
+      "argument": "--offload-kv",
+      "isFlag": true,
+      "default": false,
+      "description": "Store key-value cache in GPU memory instead of RAM"
+    },
+    {
+      "id": "flash_attention",
+      "name": "Flash Attention",
+      "type": "select",
+      "argument": "-fa",
+      "aliases": [
+        "--flash-attn"
+      ],
+      "isFlag": false,
+      "options": [
+        { "value": "auto", "label": "Auto" },
+        { "value": "1", "label": "Enabled" },
+        { "value": "0", "label": "Disabled" }
+      ],
+      "default": "1",
+      "description": "Enable Flash Attention"
+    },
+    {
+      "id": "cache_type_k",
+      "name": "K Cache Quantization",
+      "type": "select",
+      "argument": "-ctk",
+      "isFlag": false,
+      "options": [
+        { "value": "f32", "label": "f32 (Full Precision)" },
+        { "value": "f16", "label": "f16 (Half Precision)" },
+        { "value": "q8_0", "label": "q8_0" },
+        { "value": "q5_1", "label": "q5_1" },
+        { "value": "q5_0", "label": "q5_0" },
+        { "value": "q4_0", "label": "q4_0" }
+      ],
+      "default": "f16",
+      "description": "Quantization type for K cache to reduce memory usage"
+    },
+    {
+      "id": "cache_type_v",
+      "name": "V Cache Quantization",
+      "type": "select",
+      "argument": "-ctv",
+      "isFlag": false,
+      "options": [
+        { "value": "f32", "label": "f32 (Full Precision)" },
+        { "value": "f16", "label": "f16 (Half Precision)" },
+        { "value": "q8_0", "label": "q8_0" },
+        { "value": "q5_1", "label": "q5_1" },
+        { "value": "q5_0", "label": "q5_0" },
+        { "value": "q4_0", "label": "q4_0" }
+      ],
+      "default": "f16",
+      "description": "Quantization type for V cache to reduce memory usage"
+    },
+    {
+      "id": "MMAP",
+      "name": "MMAP",
+      "type": "toggle",
+      "argument": "--mmap",
+      "isFlag": true,
+      "default": false,
+      "description": "Use memory mapping for model loading"
+    }
+  ]
+}

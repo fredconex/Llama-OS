@@ -1,0 +1,233 @@
+/* Theme Variables and Base Styles */
+
+:root {
+	--theme-primary: #1565c0;
+	--theme-light: #64b5f6;
+	--theme-dark: #0d47a1;
+	--theme-accent: #1976d2;
+	--theme-bg: #0a1929;
+	--theme-surface: #152a4a;
+	--theme-surface-light: #1e3a61;
+	--theme-text: #e3f2fd;
+	--theme-text-muted: #bbdefb;
+	--theme-border: #2196f3;
+	--theme-hover: #0d47a1;
+	--theme-gradient-start: #0a1929;
+	--theme-gradient-middle: #152a4a;
+	--theme-gradient-end: #0a1929;
+	--theme-glow: rgba(33, 150, 243, 0.5);
+	--theme-glow-light: rgba(33, 150, 243, 0.3);
+	--theme-glow-strong: rgba(33, 150, 243, 0.7);
+	--theme-bg-light: rgba(33, 150, 243, 0.2);
+	--theme-bg-medium: rgba(33, 150, 243, 0.3);
+	--theme-bg-strong: rgba(33, 150, 243, 0.4);
+	--theme-error: #f44336;
+	--theme-error-bg: rgba(244, 67, 54, 0.1);
+	--theme-warning: #ff9800;
+	--theme-warning-bg: rgba(255, 152, 0, 0.1);
+	--theme-success: #4caf50;
+	--theme-success-bg: rgba(76, 175, 80, 0.1);
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+html,
+body {
+	height: 100%;
+	overflow: hidden;
+	font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+	background: linear-gradient(135deg, var(--theme-gradient-start) 0%, var(--theme-gradient-middle) 50%, var(--theme-gradient-end) 100%);
+	color: var(--theme-text);
+}
+
+.hidden {
+	display: none !important;
+}
+
+.blur {
+	filter: blur(2px);
+	pointer-events: none;
+}
+
+/* Global Scrollbar Styles */
+::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+}
+
+::-webkit-scrollbar-track {
+	background: var(--theme-surface);
+}
+
+::-webkit-scrollbar-thumb {
+	background: var(--theme-border);
+	border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+	background: var(--theme-text-muted);
+}
+
+/* Global Animations */
+@keyframes spin {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes pulse {
+	0%, 100% {
+		opacity: 0.4;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+@keyframes pulse-glow {
+	0%, 100% {
+		text-shadow: 0 0 20px var(--theme-glow);
+		transform: scale(1);
+	}
+	50% {
+		text-shadow: 0 0 30px var(--theme-glow-strong), 0 0 40px var(--theme-glow);
+		transform: scale(1.02);
+	}
+}
+
+@keyframes blink {
+	0%, 50% {
+		opacity: 1;
+	}
+	51%, 100% {
+		opacity: 0;
+	}
+}
+
+@keyframes slideIn {
+	from {
+		opacity: 0;
+		transform: translateX(100%);
+	}
+	to {
+		opacity: 1;
+		transform: translateX(0);
+	}
+}
+
+@keyframes modalSlideIn {
+	from {
+		opacity: 0;
+		transform: translateY(-20px) scale(0.95);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+
+@keyframes shimmer {
+	0% {
+		background-position: -200px 0;
+	}
+	100% {
+		background-position: 200px 0;
+	}
+}
+
+@keyframes streamingPulse {
+	0%, 100% {
+		border-color: var(--theme-primary);
+		box-shadow: 0 0 8px var(--theme-glow-light);
+	}
+	50% {
+		border-color: var(--theme-light);
+		box-shadow: 0 0 15px var(--theme-glow);
+	}
+}
+
+@keyframes streamingBlink {
+	0%, 50% {
+		opacity: 1;
+		transform: scale(1);
+	}
+	75% {
+		opacity: 0.3;
+		transform: scale(0.8);
+	}
+	100% {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes thinkingPulse {
+	0%, 100% {
+		opacity: 1;
+		color: var(--theme-text);
+	}
+	50% {
+		opacity: 0.6;
+		color: var(--theme-primary);
+	}
+}
+
+@keyframes typing {
+	0%, 80%, 100% {
+		transform: scale(0.8);
+		opacity: 0.5;
+	}
+	40% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+/* Material Icons */
+.material-icons {
+	font-family: 'Material Icons';
+	font-weight: normal;
+	font-style: normal;
+	font-size: inherit;
+	line-height: 1;
+	letter-spacing: normal;
+	text-transform: none;
+	display: inline-block;
+	white-space: nowrap;
+	word-wrap: normal;
+	direction: ltr;
+	-webkit-font-feature-settings: 'liga';
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+	.desktop-icons {
+		grid-template-columns: repeat(auto-fill, 70px);
+		gap: 15px;
+	}
+
+	.desktop-icon {
+		width: 70px;
+		height: 90px;
+	}
+
+	.icon-image {
+		width: 40px;
+		height: 40px;
+		font-size: 20px;
+	}
+
+	.window {
+		min-width: 300px;
+		width: 90%;
+		height: 80%;
+	}
+}

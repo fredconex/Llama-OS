@@ -1,0 +1,414 @@
+/* Window Management Styles */
+
+.window {
+	position: fixed;
+	background: var(--theme-surface);
+	border: 1px solid var(--theme-border);
+	border-radius: 8px 8px 0 0;
+	box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+	min-width: 400px;
+	min-height: 300px;
+	z-index: 500;
+	overflow: hidden;
+	backdrop-filter: blur(10px);
+}
+
+/* Resize Handles */
+.resize-handle {
+	position: absolute;
+	background: transparent;
+	z-index: 10;
+}
+
+.resize-handle.resize-n {
+	top: 0;
+	left: 8px;
+	right: 8px;
+	height: 8px;
+	cursor: n-resize;
+}
+
+.resize-handle.resize-s {
+	bottom: 0;
+	left: 8px;
+	right: 8px;
+	height: 8px;
+	cursor: s-resize;
+}
+
+.resize-handle.resize-e {
+	top: 8px;
+	right: 0;
+	bottom: 8px;
+	width: 8px;
+	cursor: e-resize;
+}
+
+.resize-handle.resize-w {
+	top: 8px;
+	left: 0;
+	bottom: 8px;
+	width: 8px;
+	cursor: w-resize;
+}
+
+.resize-handle.resize-nw {
+	top: 0;
+	left: 0;
+	width: 8px;
+	height: 8px;
+	cursor: nw-resize;
+}
+
+.resize-handle.resize-ne {
+	top: 0;
+	right: 0;
+	width: 8px;
+	height: 8px;
+	cursor: ne-resize;
+}
+
+.resize-handle.resize-sw {
+	bottom: 0;
+	left: 0;
+	width: 8px;
+	height: 8px;
+	cursor: sw-resize;
+}
+
+.resize-handle.resize-se {
+	bottom: 0;
+	right: 0;
+	width: 8px;
+	height: 8px;
+	cursor: se-resize;
+}
+
+.window.maximized {
+	top: 0 !important;
+	left: 0 !important;
+	width: 100% !important;
+	height: calc(100% - 48px) !important;
+	border-radius: 0;
+}
+
+/* Window Header */
+.window-header {
+	height: 40px;
+	background: var(--theme-surface-light);
+	border-bottom: 1px solid var(--theme-border);
+	display: flex;
+	align-items: center;
+	padding: 0 12px;
+	cursor: move;
+	user-select: none;
+}
+
+.window-title {
+	flex: 1;
+	font-size: 13px;
+	font-weight: 500;
+	color: var(--theme-text);
+}
+
+.window-controls {
+	display: flex;
+	gap: 8px;
+}
+
+.window-control {
+	width: 14px;
+	height: 14px;
+	border-radius: 2px;
+	border: none;
+	cursor: pointer;
+	transition: all 0.15s ease;
+}
+
+.window-control.minimize {
+	background: var(--theme-primary);
+	box-shadow: 0 0 4px var(--theme-glow-light);
+}
+
+.window-control.maximize {
+	background: var(--theme-primary);
+	box-shadow: 0 0 4px var(--theme-glow-light);
+}
+
+.window-control.close {
+	background: #ff6b6b;
+	box-shadow: 0 0 4px rgba(255, 107, 107, 0.5);
+}
+
+.window-control:hover {
+	transform: scale(1.1);
+	filter: brightness(1.2);
+}
+
+/* Window Content */
+.window-content {
+	height: calc(100% - 40px);
+	overflow: auto;
+	padding: 16px;
+}
+
+/* Server Terminal Window */
+.server-terminal-window {
+	width: 800px;
+	height: 600px;
+	background: var(--theme-surface);
+	backdrop-filter: blur(10px);
+	border: 1px solid var(--theme-border);
+}
+
+.server-terminal-window .window-header {
+	background: var(--theme-surface-light);
+	backdrop-filter: blur(10px);
+}
+
+.server-terminal-container {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	font-family: 'Ubuntu Mono', 'Courier New', monospace;
+	font-size: 13px;
+	line-height: 1.4;
+}
+
+.server-info {
+	display: flex;
+	align-items: center;
+	padding: 8px 12px;
+	background: rgba(0, 0, 0, 0.9);
+	border-bottom: 1px solid rgba(90, 90, 90, 0.5);
+	gap: 12px;
+	flex-wrap: wrap;
+}
+
+.server-status {
+	font-weight: bold;
+	font-size: 12px;
+}
+
+.server-status.starting {
+	color: #ffc107;
+	text-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
+}
+
+.server-status.running {
+	color: #4caf50;
+	text-shadow: 0 0 8px rgba(76, 175, 80, 0.5);
+}
+
+.server-status.stopped {
+	color: #f44336;
+	text-shadow: 0 0 8px rgba(244, 67, 54, 0.5);
+}
+
+.server-details {
+	color: #cccccc;
+	font-size: 12px;
+	flex: 1;
+}
+
+.server-controls {
+	display: flex;
+	gap: 8px;
+}
+
+.server-btn {
+	padding: 4px 8px;
+	background: var(--theme-primary);
+	border: none;
+	border-radius: 4px;
+	color: white;
+	cursor: pointer;
+	font-size: 11px;
+	transition: background-color 0.15s ease;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.server-btn:hover:not(:disabled) {
+	background: var(--theme-light);
+}
+
+.server-btn.stop-btn {
+	background: #f44336;
+}
+
+.server-btn.stop-btn:hover:not(:disabled) {
+	background: #d32f2f;
+}
+
+.server-btn:disabled {
+	background: #666;
+	cursor: not-allowed;
+	opacity: 0.6;
+}
+
+.server-output {
+	flex: 1;
+	overflow-y: auto;
+	padding: 12px;
+	background: rgba(0, 0, 0, 0.8);
+	color: #ffffff;
+	user-select: text;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	font-family: 'Ubuntu Mono', 'Courier New', monospace;
+	font-size: 12px;
+	line-height: 1.3;
+}
+
+.server-line {
+	margin-bottom: 2px;
+	font-family: 'Ubuntu Mono', 'Courier New', monospace;
+	font-size: 12px;
+	line-height: 1.3;
+	word-break: break-word;
+}
+
+.server-line.server-error {
+	color: #f44336;
+}
+
+.server-line.server-success {
+	color: #4caf50;
+}
+
+.server-line.server-warning {
+	color: #ff9800;
+}
+
+.server-line.server-system {
+	color: #0092a5;
+	font-weight: bold;
+}
+
+.server-line.server-exit {
+	color: #ffaa00;
+	font-weight: bold;
+}
+
+.server-line.server-separator {
+	color: #9e9e9e;
+	border-top: 1px solid #616161;
+	margin: 8px 0;
+	padding-top: 8px;
+}
+
+.server-output::-webkit-scrollbar {
+	width: 8px;
+}
+
+.server-output::-webkit-scrollbar-track {
+	background: rgba(0, 0, 0, 0.3);
+}
+
+.server-output::-webkit-scrollbar-thumb {
+	background: var(--theme-border);
+	border-radius: 4px;
+}
+
+.server-output::-webkit-scrollbar-thumb:hover {
+	background: var(--theme-primary);
+}
+
+/* Copy Link Button */
+.copy-link-btn {
+	background: none;
+	border: none;
+	cursor: pointer;
+	margin-left: 5px;
+	padding: 0;
+	font-size: 14px;
+	vertical-align: middle;
+}
+
+.copy-link-btn .material-icons {
+	font-size: 14px;
+	color: var(--theme-text-muted);
+	transition: color 0.2s ease;
+}
+
+.copy-link-btn:hover .material-icons {
+	color: var(--theme-primary);
+}
+
+/* Properties Window */
+.properties-window {
+	width: 500px;
+	height: 600px;
+}
+
+.properties-window .window-content {
+	padding: 16px 16px 16px 0;
+}
+
+.properties-window {
+	width: 800px;
+	height: 600px;
+	max-height: 90vh;
+}
+
+.properties-window .window-content {
+	overflow-y: auto;
+	max-height: calc(100% - 40px);
+}
+
+/* Settings Window */
+.settings-window {
+	width: 400px;
+	min-height: 430px;
+	height: 430px;
+}
+
+.settings-window-save {
+	position: absolute;
+	bottom: 14px;
+	width: 90%;
+	height: 28px;
+	background: var(--theme-primary);
+	color: white;
+	border: none;
+	border-radius: 6px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: all 0.2s ease;
+	padding: 0;
+	margin: 0;
+	box-sizing: border-box;
+}
+
+/* Chat Application Window */
+.chat-application-window {
+	min-width: 900px;
+	min-height: 650px;
+	width: 900px;
+	height: 650px;
+}
+
+.chat-application-window .window-content {
+	padding: 16px 16px 16px 0;
+}
+
+/* Huggingface Search Window */
+.huggingface-search-window {
+	min-width: 800px;
+	min-height: 600px;
+}
+
+/* Llama.cpp Manager Window */
+.llamacpp-manager-window {
+	width: 900px;
+	height: 700px;
+	min-width: 400px;
+	min-height: 400px;
+}
+
+.llamacpp-manager-window.maximized {
+	max-width: none;
+	max-height: none;
+}
