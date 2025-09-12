@@ -1424,7 +1424,25 @@ class DesktopManager {
             console.error('=== Launch Model Error ===');
             console.error('Error details:', error);
             console.error('Error stack:', error.stack);
-            this.showNotification(`Failed to launch ${modelName}: ${error.message}`, 'error');
+
+            const errorMessage = error.message || (typeof error === 'string' ? error : 'An unknown error occurred');
+
+            if (errorMessage.includes("No such file or directory") || errorMessage.includes("failed to find") || errorMessage.includes("Server executable not found")) {
+                this.showNotification(`Launch failed: No llama.cpp executable found.`, 'error');
+                
+                // Open the Llama.cpp manager to the installed tab
+                if (llamacppReleasesManager) {
+                    llamacppReleasesManager.showLlamaCppManager();
+                    
+                    // Ensure the "Installed Versions" tab is active
+                    const installedTabButton = document.querySelector('.llamacpp-top-tabs .top-tab[data-top-tab="installed"]');
+                    if (installedTabButton) {
+                        llamacppReleasesManager.switchTopTab(installedTabButton, 'installed');
+                    }
+                }
+            } else {
+                this.showNotification(`Failed to launch ${modelName}: ${errorMessage}`, 'error');
+            }
         }
         
         console.log('=== Launch Model Completed ===');
