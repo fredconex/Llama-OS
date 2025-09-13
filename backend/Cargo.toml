@@ -1,6 +1,6 @@
 [package]
 name = "llama-os"
-version = "0.2.1-beta"
+version = "0.2.2-beta"
 description = "Llama-OS: Desktop UI for llama.cpp model management and server launching"
 authors = ["you"]
 edition = "2021"
