@@ -373,7 +373,7 @@ class PropertiesManager {
             // Update the active settings container
             const activeSettingsContainer = activeWindow.querySelector('.active-settings');
             if (activeSettingsContainer) {
-                activeSettingsContainer.innerHTML = settingsHTML || '<div class="no-settings">No settings configured. Double-click settings from the sidebar to add them.</div>';
+                activeSettingsContainer.innerHTML = settingsHTML || '<div class="no-settings">No settings configured. Click settings from the sidebar to add them.</div>';
                 
                 // Re-setup event listeners for all settings
                 if (activeWindow.setupSettingInputListeners) {
