@@ -216,9 +216,11 @@ async fn save_config(
     models_directory: String,
     executable_folder: String,
     theme_color: String,
+    background_color: String,
+    theme_is_synced: bool,
     state: tauri::State<'_, AppState>,
 ) -> Result<serde_json::Value, String> {
-    println!("Saving config: models_dir={}, exec_folder={}, theme={}", models_directory, executable_folder, theme_color);
+    println!("Saving config: models_dir={}, exec_folder={}, theme={}, background={}, synced={}", models_directory, executable_folder, theme_color, background_color, theme_is_synced);
     
     // Preserve existing active executable folder
     let (existing_active_path, existing_active_version) = {
@@ -231,6 +233,8 @@ async fn save_config(
         active_executable_folder: existing_active_path,
         active_executable_version: existing_active_version,
         theme_color,
+        background_color,
+        theme_is_synced,
     };
     
     // Update global config

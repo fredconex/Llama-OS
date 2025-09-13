@@ -11,6 +11,18 @@ pub struct GlobalConfig {
     #[serde(default)]
     pub active_executable_version: Option<String>,
     pub theme_color: String,
+    #[serde(default = "default_background_color")]
+    pub background_color: String,
+    #[serde(default = "default_theme_is_synced")]
+    pub theme_is_synced: bool,
+}
+
+fn default_background_color() -> String {
+    "dark-gray".to_string()
+}
+
+fn default_theme_is_synced() -> bool {
+    true
 }
 
 impl Default for GlobalConfig {
@@ -22,6 +34,8 @@ impl Default for GlobalConfig {
             active_executable_folder: None,
             active_executable_version: None,
             theme_color: "dark-gray".to_string(),
+            background_color: "dark-gray".to_string(),
+            theme_is_synced: true,
         }
     }
 }
@@ -175,6 +189,10 @@ pub struct DesktopState {
     pub sort_type: Option<String>,
     pub sort_direction: String,
     pub theme: String,
+    #[serde(default = "default_background_color")]
+    pub background: String,
+    #[serde(default = "default_theme_is_synced")]
+    pub theme_synced: bool,
 }
 
 impl Default for DesktopState {
@@ -183,7 +201,9 @@ impl Default for DesktopState {
             icon_positions: HashMap::new(),
             sort_type: None,
             sort_direction: "asc".to_string(),
-            theme: "navy".to_string(),
+            theme: "dark-gray".to_string(),
+            background: "dark-gray".to_string(),
+            theme_synced: true,
         }
     }
 }

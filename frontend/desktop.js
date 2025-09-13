@@ -212,14 +212,7 @@ class DesktopManager {
         await this.loadConfiguration();
         
         // Load models and populate desktop
-        await this.loadModels();
-        
-        // Apply saved theme from config
-        const savedTheme = this.sessionData?.desktop_state?.theme || 'navy';
-        const savedBackground = this.sessionData?.desktop_state?.background || 'navy';
-        this.applyTheme(savedTheme, savedBackground);
-        document.body.dataset.theme = savedTheme;
-        document.body.dataset.background = savedBackground;
+        await this.loadModels();        
         
         // Update custom arguments indicators
         setTimeout(() => {
@@ -280,9 +273,9 @@ class DesktopManager {
             themeSyncButton.classList.toggle('active', themeIsSynced);
         }
 
-        this.applyTheme(config.theme_color || 'navy', config.background_color || 'navy');
-        document.body.dataset.theme = config.theme_color || 'navy';
-        document.body.dataset.background = config.background_color || 'navy';
+        this.applyTheme(config.theme_color || 'dark-gray', config.background_color || 'dark-gray');
+        document.body.dataset.theme = config.theme_color || 'dark-gray';
+        document.body.dataset.background = config.background_color || 'dark-gray';
     }
 
     setupEventListeners() {
@@ -980,7 +973,8 @@ class DesktopManager {
                     icon_positions: {},
                     sort_type: null,
                     sort_direction: 'asc',
-                    theme: 'navy'
+                    theme: 'dark-gray',
+                    background: 'dark-gray'
                 }
             };
             
@@ -1017,29 +1011,7 @@ class DesktopManager {
             // Don't throw - we want restart to continue even if session clearing fails
         }
     }
-
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-
-
-    
-    // Download methods are now handled directly by download manager
-    
+        
     // Utility methods used by multiple modules
     formatFileSize(bytes) {
         if (!bytes) return 'Unknown size';
@@ -1065,10 +1037,6 @@ class DesktopManager {
         const remainingMinutes = minutes % 60;
         return `${hours}h ${remainingMinutes}m`;
     }
-
-    // Download management is now handled directly by download manager
-    
-
 
     setupIconDragging() {
         const icons = document.querySelectorAll('.desktop-icon');
@@ -1216,13 +1184,13 @@ class DesktopManager {
                 
                 if (themeColorSelect && backgroundColorSelect) {
                     // Populate both selectors with the same options
-                    const themeOptions = generateThemeOptions(document.body.dataset.theme || 'navy');
+                    const themeOptions = generateThemeOptions(document.body.dataset.theme || 'dark-gray');
                     themeColorSelect.innerHTML = themeOptions;
                     backgroundColorSelect.innerHTML = themeOptions;
                     
                     // Set the current values
-                    themeColorSelect.value = document.body.dataset.theme || 'navy';
-                    backgroundColorSelect.value = document.body.dataset.background || 'navy';
+                    themeColorSelect.value = document.body.dataset.theme || 'dark-gray';
+                    backgroundColorSelect.value = document.body.dataset.background || 'dark-gray';
                 }
                 
                 // Add to taskbar if not already there
@@ -1250,15 +1218,28 @@ class DesktopManager {
         }
     }
 
-    closeSettingsPanel() {
+    async closeSettingsPanel() {
         const windowElement = document.getElementById('settings-window');
         if (windowElement) {
             windowElement.classList.add('hidden');
             this.windows.delete('settings-window');
+
             // Remove from taskbar
             const taskbarItem = document.getElementById('taskbar-settings-window');
             if (taskbarItem) {
                 taskbarItem.remove();
+            }
+
+            // Revert theme to saved settings
+            try {
+                const config = await invoke('get_config');
+                if (config) {
+                    this.applyTheme(config.theme_color || 'dark-gray', config.background_color || 'dark-gray');
+                    document.body.dataset.theme = config.theme_color || 'dark-gray';
+                    document.body.dataset.background = config.background_color || 'dark-gray';
+                }
+            } catch (error) {
+                console.error('Error reverting theme settings:', error);
             }
         }
     }
@@ -2724,7 +2705,7 @@ class DesktopManager {
                 // Also update localStorage for immediate persistence on next load
                 localStorage.setItem('llama-os-theme', themeColor);
                 localStorage.setItem('llama-os-background', backgroundColor);
-                localStorage.setItem('llama-os-theme-synced', themeIsSynced);
+                localStorage.setItem('llama-os-theme-synced', themeIsSynced.toString());
 
                 if (result.models) {
                     this.refreshDesktopIcons(result.models);
@@ -2867,8 +2848,8 @@ class DesktopManager {
         const root = document.documentElement;
 
         // Use centralized theme definitions
-        const selectedTheme = themeDefinitions[theme] || themeDefinitions.navy;
-        const selectedBackground = themeDefinitions[background] || themeDefinitions.navy;
+        const selectedTheme = themeDefinitions[theme] || themeDefinitions['dark-gray'];
+        const selectedBackground = themeDefinitions[background] || themeDefinitions['dark-gray'];
         
         root.style.setProperty('--theme-primary', selectedTheme.primary);
         root.style.setProperty('--theme-light', selectedTheme.light);
@@ -3350,8 +3331,8 @@ class DesktopManager {
             const desktopState = {
                 sort_type: this.sortType,
                 sort_direction: this.sortDirection,
-                theme: document.body.dataset.theme || 'navy',
-                background: document.body.dataset.background || 'navy',
+                theme: document.body.dataset.theme || 'dark-gray',
+                background: document.body.dataset.background || 'dark-gray',
                 theme_synced: document.getElementById('theme-sync-button')?.classList.contains('active') ?? true,
                 icon_positions: Object.fromEntries(this.iconPositions)
             };
