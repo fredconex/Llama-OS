@@ -1836,7 +1836,7 @@ class DesktopManager {
             switch (setting.type) {
                 case 'slider':
                     const displayValue = currentValue;
-                    valueDisplayHTML = `<span class="value-display">${displayValue}</span>${setting.unit ? ' ' + setting.unit : ''}`;
+                    valueDisplayHTML = `<span class="value-display" contenteditable="true" data-setting-id="${setting.id}">${displayValue}</span>${setting.unit ? ' ' + setting.unit : ''}`;
                     controlsHTML = `
                         <input type="range" class="setting-slider" data-setting="${setting.id}" 
                                min="${setting.min || 0}" max="${setting.max || 100}" step="${setting.step || 1}" value="${currentValue}">
@@ -1974,6 +1974,35 @@ class DesktopManager {
                 // Always show the full numerical value
                 valueDisplay.textContent = value;
             }
+        };
+        
+        const handleInlineEdit = async (e) => {
+            const span = e.target;
+            const settingId = span.dataset.settingId;
+            const settingItem = span.closest('.setting-item');
+            if (!settingItem) return;
+        
+            const slider = settingItem.querySelector(`input[type="range"][data-setting="${settingId}"]`);
+            if (!slider) return;
+        
+            let value = parseInt(span.textContent, 10);
+        
+            if (isNaN(value)) {
+                span.textContent = slider.value;
+                return;
+            }
+        
+            const min = parseInt(slider.min, 10);
+            const max = parseInt(slider.max, 10);
+        
+            if (value < min) value = min;
+            if (value > max) value = max;
+        
+            span.textContent = value;
+            slider.value = value;
+        
+            // Manually trigger sync
+            await syncToCustomArgs();
         };
         
         // Sync from individual settings to custom args
@@ -2131,7 +2160,18 @@ class DesktopManager {
                         settingInput.checked = parsedSettings[settingName] || false;
                     } else if (parsedSettings[settingName] !== undefined) {
                         settingInput.value = parsedSettings[settingName];
-                        updateValueDisplay(settingName, parsedSettings[settingName]);
+                        const settingConfig = settingsConfig.find(s => s.id === settingName);
+                        if (settingConfig && settingConfig.type === 'select' && settingConfig.options) {
+                            const selectedOption = settingConfig.options.find(opt => opt.value == parsedSettings[settingName]);
+                            if (selectedOption) {
+                                const valueDisplay = item.querySelector('.value-display');
+                                if (valueDisplay) {
+                                    valueDisplay.textContent = selectedOption.label;
+                                }
+                            }
+                        } else {
+                            updateValueDisplay(settingName, parsedSettings[settingName]);
+                        }
                     }
                 }
                 // Note: Toggle settings don't have inputs to update - they're just present or absent
@@ -2142,9 +2182,17 @@ class DesktopManager {
         
         // Define the input change handler first
         const handleInputChange = (e) => {
-            if (e.target.type === 'range') {
-                const settingName = e.target.dataset.setting;
-                updateValueDisplay(settingName, e.target.value);
+            const target = e.target;
+            const settingName = target.dataset.setting;
+
+            if (target.type === 'range') {
+                updateValueDisplay(settingName, target.value);
+            } else if (target.type === 'select-one') {
+                const selectedOption = target.options[target.selectedIndex];
+                const valueDisplay = target.closest('.setting-item').querySelector('.value-display');
+                if (valueDisplay && selectedOption) {
+                    valueDisplay.textContent = selectedOption.textContent;
+                }
             }
             syncToCustomArgs();
         };
@@ -2166,15 +2214,19 @@ class DesktopManager {
                         syncToCustomArgs();
                     });
                 } else {
-                    input.addEventListener('change', (e) => {
-                        console.log('Change event fired for:', e.target.dataset.setting, 'new value:', e.target.value);
-                        syncToCustomArgs();
-                    });
-                    input.addEventListener('input', (e) => {
-                        console.log('Input event fired for:', e.target.dataset.setting, 'new value:', e.target.value);
-                        syncToCustomArgs();
-                    });
+                    input.addEventListener('change', handleInputChange);
                 }
+            });
+
+            const valueDisplays = window.querySelectorAll('.value-display[contenteditable="true"]');
+            valueDisplays.forEach(span => {
+                span.addEventListener('blur', handleInlineEdit);
+                span.addEventListener('keydown', e => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        e.target.blur();
+                    }
+                });
             });
         };
         
