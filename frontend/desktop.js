@@ -1985,18 +1985,28 @@ class DesktopManager {
             const slider = settingItem.querySelector(`input[type="range"][data-setting="${settingId}"]`);
             if (!slider) return;
         
-            let value = parseInt(span.textContent, 10);
+            let value = parseFloat(span.textContent);
         
             if (isNaN(value)) {
                 span.textContent = slider.value;
                 return;
             }
         
-            const min = parseInt(slider.min, 10);
-            const max = parseInt(slider.max, 10);
+            const min = parseFloat(slider.min);
+            const max = parseFloat(slider.max);
         
             if (value < min) value = min;
             if (value > max) value = max;
+
+            const step = parseFloat(slider.step);
+            if (step) {
+                value = Math.round(value / step) * step;
+                // handle floating point inaccuracies
+                const precision = (step.toString().split('.')[1] || []).length;
+                if (precision > 0) {
+                    value = parseFloat(value.toFixed(precision));
+                }
+            }
         
             span.textContent = value;
             slider.value = value;
