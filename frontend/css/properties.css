@@ -265,6 +265,14 @@ select.property-input {
 	font-weight: 500;
 }
 
+.setting-value .value-display[contenteditable="true"]:focus {
+    background-color: var(--theme-surface);
+    color: var(--theme-text);
+    outline: 1px solid var(--theme-accent);
+    border-radius: 3px;
+    padding: 0 4px;
+}
+
 .setting-controls {
 	margin-top: 6px;
 }
