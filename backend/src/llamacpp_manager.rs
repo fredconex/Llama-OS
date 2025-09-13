@@ -1,11 +1,11 @@
 use serde::{Deserialize, Serialize};
 use std::time::{Duration, Instant};
 use std::sync::Mutex;
-use once_cell::sync::Lazy;
+use std::sync::LazyLock;
 
 // Cache for releases to avoid excessive API calls
-static RELEASES_CACHE: Lazy<Mutex<Option<(Vec<LlamaCppReleaseFrontend>, Instant)>>> = 
-    Lazy::new(|| Mutex::new(None));
+static RELEASES_CACHE: LazyLock<Mutex<Option<(Vec<LlamaCppReleaseFrontend>, Instant)>>> = 
+    LazyLock::new(|| Mutex::new(None));
 
 // Cache duration - GitHub allows 60 requests per hour for unauthenticated requests
 // We'll cache for 10 minutes to be conservative
